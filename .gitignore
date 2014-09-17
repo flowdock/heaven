@@ -19,3 +19,6 @@ public/assets
 release.sh
 coverage
 .ruby-version
+
+# Ignore local foreman settings
+.env
