@@ -7,19 +7,21 @@ require "heaven/provider/dpl"
 require "heaven/provider/bundler_capistrano"
 require "heaven/provider/ansible"
 require "heaven/provider/shell"
+require "heaven/provider/bundler_capistrano_external"
 
 # The top-level Heaven module
 module Heaven
   # A dispatcher for provider identification
   module Provider
     PROVIDERS ||= {
-      "heroku"             => HerokuHeavenProvider,
-      "capistrano"         => Capistrano,
-      "fabric"             => Fabric,
-      "elastic_beanstalk"  => ElasticBeanstalk,
-      "bundler_capistrano" => BundlerCapistrano,
-      "ansible"            => Ansible,
-      "shell"              => Shell
+      "heroku"                      => HerokuHeavenProvider,
+      "capistrano"                  => Capistrano,
+      "fabric"                      => Fabric,
+      "elastic_beanstalk"           => ElasticBeanstalk,
+      "bundler_capistrano"          => BundlerCapistrano,
+      "ansible"                     => Ansible,
+      "shell"                       => Shell,
+      "bundler_capistrano_external" => BundlerCapistranoExternal
     }
 
     def self.from(guid, data)
