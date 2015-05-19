@@ -14,14 +14,14 @@ module Heaven
         return execute_and_log(["/usr/bin/true"]) if Rails.env.test?
 
         unless File.exist?(checkout_directory)
-          log "Cloning #{repository_url} into #{checkout_directory}"
-          execute_and_log(["git", "clone", clone_url, checkout_directory])
+          log "Cloning #{deploy_recipe_clone_url} into #{checkout_directory}"
+          execute_and_log(["git", "clone", deploy_recipe_clone_url, checkout_directory])
         end
 
         Dir.chdir(checkout_directory) do
           log "Fetching the latest code"
           execute_and_log(%w{git fetch})
-          execute_and_log(["git", "reset", "--hard", sha])
+          execute_and_log(["git", "reset", "--hard", checkout_ref])
           Bundler.with_clean_env do
             bundler_string = ["bundle", "install", "--without", ignored_groups.join(" ")]
             log "Executing bundler: #{bundler_string.join(" ")}"
@@ -43,6 +43,30 @@ module Heaven
         gemfile_path = File.expand_path("Gemfile", checkout_directory)
         lockfile_path = File.expand_path("Gemfile.lock", checkout_directory)
         Bundler::Definition.build(gemfile_path, lockfile_path, nil)
+      end
+
+      def deploy_recipe_clone_url
+        if external_deploy_repo?
+          deploy_recipe_url = custom_payload_config["deploy_recipe_clone_url"]
+          uri = Addressable::URI.parse(deploy_recipe_url)
+          uri.user = github_token
+          uri.password = ""
+          uri.to_s
+        else
+          clone_url
+        end
+      end
+
+      def checkout_ref
+        if external_deploy_repo?
+          "origin/master"
+        else
+          sha
+        end
+      end
+
+      def external_deploy_repo?
+        custom_payload_config.try(:[], "deploy_recipe_clone_url").present?
       end
     end
   end
