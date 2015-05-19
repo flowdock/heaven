@@ -92,7 +92,6 @@ Capistrano gives you a distributed task management system over ssh. The heaven p
 
 You need to configure your `:repository` option in your Capfile to use an https remote. The git interactions will always be over https and the ssh interactions will only involve accessing your servers.
 
-
 ### Capfile
 
 Below is a simple capfile that works with [passenger][18].
@@ -178,6 +177,18 @@ end
     |<----------------------|                     |
     |                       |                     |
 ```
+
+## Bundler Capistrano
+
+This is a capistrano provider that lets you use a fresh bundler environment for deployments. It will install gems from your repository's `Gemfile`, but only the `:deployment` and `:heaven` groups, and execute the deployment task in that context.
+
+### Required Configuration
+
+Same as with `Capistrano`.
+
+### Optional Configuration
+
+You can use an external repository that contains the capistrano recipes. This is useful for example with open source projects where you don't want to publish your capistrano configuration or where it might just be inappropriate to include it. To use the external config, just add `"deploy_recipe_clone_url"` key to your deployment configuration, that points to the GitHub repository with the deployment tasks.
 
 ## Fabric
 
