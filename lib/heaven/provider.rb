@@ -12,12 +12,12 @@ module Heaven
   # A dispatcher for provider identification
   module Provider
     PROVIDERS ||= {
-      "heroku"                      => HerokuHeavenProvider,
-      "capistrano"                  => Capistrano,
-      "fabric"                      => Fabric,
-      "elastic_beanstalk"           => ElasticBeanstalk,
-      "bundler_capistrano"          => BundlerCapistrano,
-      "ansible"                     => Ansible
+      "heroku"             => HerokuHeavenProvider,
+      "capistrano"         => Capistrano,
+      "fabric"             => Fabric,
+      "elastic_beanstalk"  => ElasticBeanstalk,
+      "bundler_capistrano" => BundlerCapistrano,
+      "ansible"            => Ansible
     }
 
     def self.from(guid, data)

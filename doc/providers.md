@@ -92,6 +92,7 @@ Capistrano gives you a distributed task management system over ssh. The heaven p
 
 You need to configure your `:repository` option in your Capfile to use an https remote. The git interactions will always be over https and the ssh interactions will only involve accessing your servers.
 
+
 ### Capfile
 
 Below is a simple capfile that works with [passenger][18].
